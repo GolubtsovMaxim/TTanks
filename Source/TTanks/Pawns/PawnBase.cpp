@@ -2,7 +2,7 @@
 
 
 #include "PawnBase.h"
-//#include "Pawns/PawnBase.h"
+#include "TTanks/Actors/ProjectileBase.h"
 
 // Sets default values
 APawnBase::APawnBase()
@@ -24,24 +24,33 @@ APawnBase::APawnBase()
 
 }
 
-// Called when the game starts or when spawned
-void APawnBase::BeginPlay()
+void APawnBase::RotateTurret(FVector LookAt)
 {
-	Super::BeginPlay();
+
+	FVector LookAtClean = FVector(LookAt.X, LookAt.Y, TurretMeshComp->GetComponentLocation().Z);
+	FVector StartLocation = TurretMeshComp->GetComponentLocation();
+	
+	FRotator TurretRotation = FVector(LookAtClean - StartLocation).Rotation();
+	TurretMeshComp->SetWorldRotation(TurretRotation);
+}
+
+void APawnBase::Fire()
+{
+	if (ProjectileClass)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Fire!"));
+		AProjectileBase* TempProjectile = GetWorld()->SpawnActor<AProjectileBase>
+			(
+				ProjectileClass, 
+				ProjectileSpawnPoint->GetComponentLocation(), 
+				ProjectileSpawnPoint->GetComponentRotation()
+			);
+		TempProjectile->SetOwner(this);
+	}
 	
 }
 
-// Called every frame
-void APawnBase::Tick(float DeltaTime)
+void APawnBase::HandleDestruction()
 {
-	Super::Tick(DeltaTime);
-
+	
 }
-
-// Called to bind functionality to input
-void APawnBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-}
-
