@@ -8,6 +8,8 @@
 
 class APawnTank;
 class APawnTurret;
+class APlayerControllerBase;
+
 UCLASS()
 class TTANKS_API ATankGameModeBase : public AGameModeBase
 {
@@ -23,6 +25,8 @@ protected:
         void GameStart();
         UFUNCTION(BlueprintImplementableEvent)
         void GameOver(bool PlayerWon);
+        UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Game Loop")
+            int32 StartDelay = 3;
 
 private:
 
@@ -32,4 +36,8 @@ private:
     APawnTank* PlayerTank{nullptr};
     uint32 TargetTurrets = 0;
     uint32 GetTargetTurrets() const;
+    APlayerControllerBase* PlayerController;
+
+    
+
 };

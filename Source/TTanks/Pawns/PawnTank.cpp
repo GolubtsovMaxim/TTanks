@@ -74,5 +74,5 @@ void APawnTank::HandleDestruction()
 {
     Super::HandleDestruction();
 
-    Destroy();
+    //Destroy();
 }
