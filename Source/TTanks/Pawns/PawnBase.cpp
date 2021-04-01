@@ -2,7 +2,10 @@
 
 
 #include "PawnBase.h"
+
+#include "Kismet/GameplayStatics.h"
 #include "TTanks/Actors/ProjectileBase.h"
+#include "TTanks/Components/HealthComponent.h"
 
 // Sets default values
 APawnBase::APawnBase()
@@ -21,6 +24,8 @@ APawnBase::APawnBase()
 	
 	ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("ProjectileSpawnPoint"));
 	ProjectileSpawnPoint->SetupAttachment(TurretMeshComp);
+
+	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
 
 }
 
@@ -52,5 +57,5 @@ void APawnBase::Fire()
 
 void APawnBase::HandleDestruction()
 {
-	
+	UGameplayStatics::SpawnEmitterAtLocation(this, DeathParticle, GetActorLocation());
 }

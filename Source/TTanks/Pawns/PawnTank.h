@@ -28,6 +28,8 @@ public:
 
 	virtual void HandleDestruction() override;
 
+	bool GetIsAlive() const;
+
 
 protected:
 
@@ -45,6 +47,7 @@ private:
 	float RotateSpeed = 100.f;
 
 	APlayerController* PlayerController;
+	bool bIsPlayerAlive = true;
 
 	FVector MoveDirection;
 	FQuat RotationDirection;
